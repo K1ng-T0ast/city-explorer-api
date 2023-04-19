@@ -13,7 +13,7 @@ const app = express();
 // **** MIDDLEWARE **** Allow anyone to hit our server
 app.use(cors());
 
-const PORT = process.env.PORT || 3002;
+const PORT = process.env.PORT || 3003;
 
 app.listen(PORT, () => console.log(`listening on ${PORT}`));
 
@@ -27,6 +27,8 @@ app.get('/', (req, res) => {
 // **** Weather goes here ****
 
 app.get('/weather', (req, res, next) => {
+    console.log('Weather endpoint hit');
+    console.log('All weather data:', weatherData);
     try {
         let lat = parseFloat(req.query.lat);
         let lon = parseFloat(req.query.lon);
@@ -35,8 +37,9 @@ app.get('/weather', (req, res, next) => {
         console.log('lat:', lat, 'lon:', lon, 'searchQuery:', searchQuery);
 
         let foundWeather = weatherData.find(city => city.city_name.toLowerCase() === searchQuery.toLowerCase() &&
-            Math.abs(city.lat - lat) < 0.001 &&
-            Math.abs(city.lon - lon) < 0.001);
+        Math.abs(parseFloat(city.lat) - parseFloat(lat)) < 0.01 &&
+        Math.abs(parseFloat(city.lon) - parseFloat(lon)) < 0.01);
+    
 
         console.log('foundWeather:', foundWeather);
 
