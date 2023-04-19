@@ -5,7 +5,7 @@
 const express = require('express');
 require('dotenv').config();
 const cors = require('cors');
-let weatherData = require('./data/weather.json');
+const axios = require('axios');
 
 // App now === server - Need to call express to create the server
 const app = express();
@@ -26,22 +26,75 @@ app.get('/', (req, res) => {
 
 // **** Weather goes here ****
 
-app.get('/weather', (req, res, next) => {
-    console.log('Weather endpoint hit');
-    console.log('All weather data:', weatherData);
+app.get('/movies', async (req, res, next) => {
+    try {
+        let movieImg = req.query.movie;
+        let url = `https://api.themoviedb.org/3/movie?api_key=${process.env.MOVIE_DB_API_KEY}&language=en-US&query=${movieImg}`;
+
+        let movieResponse = await axios.get(url);
+
+        let dataSend = movieResponse.data.results.map(obj => new Movie(obj));
+
+        res.status(200).send(dataSend);
+        
+    } catch (error) {
+        next(error);
+    }
+});
+
+class Movie {
+    constructor(movieObj) {
+        this.title = movieObj.title;
+        this.poster = movieObj.poster_path;
+    }
+}
+
+app.get('/photos', async (req, res, next) => {
+    try {
+        let cityImg = req.query.city;
+        let url = `https://api.unsplash.com/search/photos?client_id=${process.env.UNSPLASH_API_KEY}&query=${cityImg}`;
+
+        let imgResponse = await axios.get(url);
+
+        let dataSend = imgResponse.data.results.map(obj => new Photo(obj));
+
+        res.status(200).send(dataSend);
+    } catch (error) {
+        next(error);
+    }
+});
+
+class Photo {
+    constructor(imgObj) {
+        this.src = imgObj.urls.regular;
+        this.alt = imgObj.alt_description;
+        this.userName = imgObj.user.name;
+    }
+}
+
+app.get('/weather', async (req, res, next) => {
+    // console.log('Weather endpoint hit');
+    // console.log('All weather data:', weatherData);
     try {
         let lat = parseFloat(req.query.lat);
         let lon = parseFloat(req.query.lon);
         let searchQuery = req.query.searchQuery;
+        let url = `https://api.weatherbit.io/v2.0/forecast/daily?key=${process.env.WEATHERBIT_API_KEY}&query=${searchQuery}&lat=${lat}&lon=${lon}`;
 
-        console.log('lat:', lat, 'lon:', lon, 'searchQuery:', searchQuery);
+        let weatherResponse = await axios.get(url)
 
-        let foundWeather = weatherData.find(city => city.city_name.toLowerCase() === searchQuery.toLowerCase() &&
-        Math.abs(parseFloat(city.lat) - parseFloat(lat)) < 0.01 &&
-        Math.abs(parseFloat(city.lon) - parseFloat(lon)) < 0.01);
+        if (!weatherResponse.data.results) {
+            return res.status(404).send('No weather found');
+        }
+
+        let foundWeather = weatherResponse.data.results.filter(city => 
+            city.city_name.toLowerCase() === searchQuery.toLowerCase() ||
+            Math.abs(parseFloat(city.lat) - parseFloat(lat)) < 0.01 ||
+            Math.abs(parseFloat(city.lon) - parseFloat(lon)) < 0.01
+        );
     
 
-        console.log('foundWeather:', foundWeather);
+        // console.log('foundWeather:', foundWeather);
 
 
 // **** Trying to understand why this original code is not working ****            
@@ -49,7 +102,7 @@ app.get('/weather', (req, res, next) => {
             // let lon = req.query.lon;
             // let searchQuery = req.query.searchQuery;
     
-            // let foundWeather = weatherData.find(city => city.city_name.toLowerCase() === searchQuery.toLowerCase() && city.lat == lat && city.lon == lon);
+            // let foundWeather = weatherResponse.data.results.filter(city => city.city_name.toLowerCase() === searchQuery.toLowerCase() || city.lat == lat || city.lon == lon);
 
         if (!foundWeather) {
              return res.status(404).send('No weather found');
@@ -68,6 +121,8 @@ class Forecast {
     constructor(forecastData) {
         this.date = forecastData.datetime;
         this.description = forecastData.weather.description;
+        this.minTemp = forecastData.min_temp;
+        this.maxTemp = forecastData.max_temp;
     }
 }
 

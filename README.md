@@ -30,6 +30,44 @@ Express, dotenv, and cors.
 
 ## Time Estimates
 
+### (Version 1.1.0)
+
+Name of feature: Weather Live API
+
+Estimate of time needed to complete: 30min
+
+Start time: 2:40
+
+Finish time: 
+
+Actual time needed to complete: 
+
+###########################################################################
+
+Name of feature: Movie Live API
+
+Estimate of time needed to complete: 
+
+Start time: 
+
+Finish time: 
+
+Actual time needed to complete: 
+
+###########################################################################
+
+Name of feature: Photo Live API Setup (non-deploy)
+
+Estimate of time needed to complete: 
+
+Start time: 
+
+Finish time: 
+
+Actual time needed to complete: 
+
+###########################################################################
+
 ### (Version 1.0.0)
 
 Name of feature: Setup Server Repository
