@@ -24,15 +24,6 @@ app.get('/', (req, res) => {
     res.status(200).send('Welcome to my server!');
 });
 
-// app.get('/hello', (req, res) => {
-//     let firstName = req.query.userfirstName;
-//     let lastName = req.query.userlastName;
-
-//     console.log(req.query);
-
-//     res.status(200).send(`Hello ${firstName} ${lastName}, welcome to my server!`);
-// });
-
 // **** Weather goes here ****
 
 app.get('/weather', (req, res, next) => {
@@ -58,7 +49,7 @@ app.get('/weather', (req, res, next) => {
             // let foundWeather = weatherData.find(city => city.city_name.toLowerCase() === searchQuery.toLowerCase() && city.lat == lat && city.lon == lon);
 
         if (!foundWeather) {
-            res.status(404).send('No weather found');
+             return res.status(404).send('No weather found');
         }
 
         let forecasts = foundWeather.data.map(weatherData => new Forecast(weatherData));
