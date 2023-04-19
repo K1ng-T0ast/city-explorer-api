@@ -1,24 +1,32 @@
-# Project Name
+# API For City Explorer Application (Server)
 
-**Author**: Your Name Goes Here
-**Version**: 1.0.0 (increment the patch/fix version number if you make more commits past your first submission)
+**Author**: Kyle White
+**Version**: 1.0.0
 
 ## Overview
-<!-- Provide a high level overview of what this application is and why you are building it, beyond the fact that it's an assignment for this class. (i.e. What's your problem domain?) -->
+
+This is a ready to install server for use with the City Explorer application. Uploaded currently in place of a weather API is temporary JSON data to show proof of life. 
 
 ## Getting Started
-<!-- What are the steps that a user must take in order to build this app on their own machine and get it running? -->
+
+1. Create a new repository and copy the contents of this repository onto your local machine.
+2. Set up your server environment on your local machine by insalling the required dependencies: express, dotenv, and cors using npm install.
+3. Setup your own version of the port if desired.
+4. Install Thuder Client or any other endpoint tester.
+5. Use Render or other web service to add this API.
+6. Connect to City Explorer app on Netlify or other to set up the full stack environment.
 
 ## Architecture
-<!-- Provide a detailed description of the application design. What technologies (languages, libraries, etc) you're using, and any other relevant design information. -->
+
+Express, dotenv, and cors.
 
 ## Change Log
-<!-- Use this area to document the iterative changes made to your application as each feature is successfully implemented. Use time stamps. Here's an example:
 
-01-01-2001 4:59pm - Application now has a fully-functional express server, with a GET route for the location resource. -->
+04-18-2023 - Added all necessary configurations and endpoints for a fully functioning test environment.
 
 ## Credit and Collaborations
-<!-- Give credit (and a link) to other people or resources that helped you build this application. -->
+
+
 
 ## Time Estimates
 
@@ -36,11 +44,11 @@ Actual time needed to complete: 14min
 
 ###########################################################################
 
-Name of feature: Locations
+Name of feature: Weather (placeholder)
 
-Estimate of time needed to complete: 35min
+Estimate of time needed to complete: 1hour
 
-Start time: 3:44
+Start time: 3:50
 
 Finish time: 4:16
 
@@ -48,7 +56,7 @@ Actual time needed to complete: 32min
 
 ###########################################################################
 
-Name of feature: Map
+Name of feature: Error Handling
 
 Estimate of time needed to complete: 40min
 
@@ -57,17 +65,5 @@ Start time: 4:18
 Finish time: 5:19
 
 Actual time needed to complete: 61min
-
-###########################################################################
-
-Name of feature: Error Handling
-
-Estimate of time needed to complete: 15min
-
-Start time: 5:20
-
-Finish time: 5:42
-
-Actual time needed to complete: 22min
 
 ###########################################################################
