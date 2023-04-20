@@ -1,7 +1,7 @@
 # API For City Explorer Application (Server)
 
 **Author**: Kyle White
-**Version**: 1.0.0
+**Version**: 1.1.0
 
 ## Overview
 
@@ -22,11 +22,10 @@ Express, dotenv, and cors.
 
 ## Change Log
 
+04-19-2023 - Added Endpoint configurations for live API requests.
 04-18-2023 - Added all necessary configurations and endpoints for a fully functioning test environment.
 
 ## Credit and Collaborations
-
-
 
 ## Time Estimates
 
@@ -38,35 +37,24 @@ Estimate of time needed to complete: 30min
 
 Start time: 2:40
 
-Finish time: 
+Finish time: 3:13
 
-Actual time needed to complete: 
+Actual time needed to complete: 33min
 
 ###########################################################################
 
 Name of feature: Movie Live API
 
-Estimate of time needed to complete: 
+Estimate of time needed to complete: 1hr
 
-Start time: 
+Start time: 3:30
 
-Finish time: 
+Finish time: 4:50
 
-Actual time needed to complete: 
-
-###########################################################################
-
-Name of feature: Photo Live API Setup (non-deploy)
-
-Estimate of time needed to complete: 
-
-Start time: 
-
-Finish time: 
-
-Actual time needed to complete: 
+Actual time needed to complete: 1hr 20min
 
 ###########################################################################
+
 
 ### (Version 1.0.0)
 
