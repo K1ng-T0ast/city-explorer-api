@@ -28,8 +28,8 @@ app.get('/', (req, res) => {
 
 app.get('/movies', async (req, res, next) => {
     try {
-        let movieImg = req.query.movie;
-        let url = `https://api.themoviedb.org/3/movie?api_key=${process.env.MOVIE_DB_API_KEY}&language=en-US&query=${movieImg}`;
+        let movieImg = req.query.city;
+        let url = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.MOVIE_DB_API_KEY}&language=en-US&query=${movieImg}`;
 
         let movieResponse = await axios.get(url);
 
@@ -73,42 +73,40 @@ class Photo {
 }
 
 app.get('/weather', async (req, res, next) => {
-    // console.log('Weather endpoint hit');
-    // console.log('All weather data:', weatherData);
+
     try {
         let lat = parseFloat(req.query.lat);
         let lon = parseFloat(req.query.lon);
         let searchQuery = req.query.searchQuery;
-        let url = `https://api.weatherbit.io/v2.0/forecast/daily?key=${process.env.WEATHERBIT_API_KEY}&query=${searchQuery}&lat=${lat}&lon=${lon}`;
+
+        let url = `https://api.weatherbit.io/v2.0/forecast/daily?key=${process.env.WEATHERBIT_API_KEY}&query=${searchQuery}&lat=${lat}&lon=${lon}&days=16`;
+
+        console.log('URL:', url); // request URL
 
         let weatherResponse = await axios.get(url)
 
-        if (!weatherResponse.data.results) {
-            return res.status(404).send('No weather found');
-        }
+        // console.log('Weather Response:', weatherResponse.data); // response data
 
-        let foundWeather = weatherResponse.data.results.filter(city => 
-            city.city_name.toLowerCase() === searchQuery.toLowerCase() ||
-            Math.abs(parseFloat(city.lat) - parseFloat(lat)) < 0.01 ||
-            Math.abs(parseFloat(city.lon) - parseFloat(lon)) < 0.01
-        );
+        // if (!weatherResponse.data.results) {
+        //     return res.status(404).send('No weather found');
+        // }
+
+        // let foundWeather = weatherResponse.data.get(city => 
+        //     city.city_name.toLowerCase() === searchQuery.toLowerCase() ||
+        //     Math.abs(parseFloat(city.lat) - parseFloat(lat)) < 0.01 ||
+        //     Math.abs(parseFloat(city.lon) - parseFloat(lon)) < 0.01
+        // );
     
 
-        // console.log('foundWeather:', foundWeather);
+        // console.log('foundWeather:', foundWeather); // filtered data
 
+        // if (!foundWeather) {
+        //      return res.status(404).send('No weather found');
+        // }
 
-// **** Trying to understand why this original code is not working ****            
-            // let lat = req.query.lat;
-            // let lon = req.query.lon;
-            // let searchQuery = req.query.searchQuery;
-    
-            // let foundWeather = weatherResponse.data.results.filter(city => city.city_name.toLowerCase() === searchQuery.toLowerCase() || city.lat == lat || city.lon == lon);
+        let forecasts = weatherResponse.data.data.map(weatherData => new Forecast(weatherData));
 
-        if (!foundWeather) {
-             return res.status(404).send('No weather found');
-        }
-
-        let forecasts = foundWeather.data.map(weatherData => new Forecast(weatherData));
+        console.log('Forecasts:', forecasts); // mapped forecasts
 
         res.status(200).send(forecasts);
     } catch (error) {
@@ -135,3 +133,11 @@ app.use((error, req, res, next) => {
     console.log(error.message);
     res.status(500).send(error.message);
 });
+
+
+// **** Trying to understand why this original code is not working ****            
+            // let lat = req.query.lat;
+            // let lon = req.query.lon;
+            // let searchQuery = req.query.searchQuery;
+    
+            // let foundWeather = weatherResponse.data.results.filter(city => city.city_name.toLowerCase() === searchQuery.toLowerCase() || city.lat == lat || city.lon == lon);
