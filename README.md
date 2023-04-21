@@ -1,11 +1,11 @@
 # API For City Explorer Application (Server)
 
 **Author**: Kyle White
-**Version**: 1.1.0
+**Version**: 1.3.0
 
 ## Overview
 
-This is a ready to install server for use with the City Explorer application. Uploaded currently in place of a weather API is temporary JSON data to show proof of life. 
+This is a ready to install server for use with the City Explorer application. Uploaded currently in place of a weather API is temporary JSON data to show proof of life.
 
 ## Getting Started
 
@@ -22,12 +22,42 @@ Express, dotenv, and cors.
 
 ## Change Log
 
+04-21-2023 - Added cache support
+04-20-2023 - Modularized the backend codebase
 04-19-2023 - Added Endpoint configurations for live API requests.
 04-18-2023 - Added all necessary configurations and endpoints for a fully functioning test environment.
 
 ## Credit and Collaborations
 
 ## Time Estimates
+
+### (Version 1.3.0)
+
+Name of feature: Setup Cache on Backend
+
+Estimate of time needed to complete: 30min
+
+Start time: 2:05
+
+Finish time: 2:40
+
+Actual time needed to complete: 35min
+
+###########################################################################
+
+### (Version 1.2.0)
+
+Name of feature: Modularize Backend Code
+
+Estimate of time needed to complete: 15min
+
+Start time: 2:35
+
+Finish time: 2:45
+
+Actual time needed to complete: 10min
+
+###########################################################################
 
 ### (Version 1.1.0)
 
