@@ -2,22 +2,41 @@
 
 const axios = require('axios');
 
+let cache = {};
+const CACHE_EXPIRATION_TIME = 8.64e+7;
+
 async function getWeather(req, res, next) {
     try {
-        let lat = parseFloat(req.query.lat);
-        let lon = parseFloat(req.query.lon);
+        const { lat, lon } = req.query;
+        let latitude = parseFloat(lat);
+        let longitude = parseFloat(lon);
+        let key = `lat:${latitude} lon:${longitude}`
 
-        let url = `https://api.weatherbit.io/v2.0/forecast/daily?key=${process.env.WEATHERBIT_API_KEY}&lat=${lat}&lon=${lon}&days=16`;
+        if ((cache[key]) && (Date.now() - cache[key].created) < CACHE_EXPIRATION_TIME) {
+            console.log('Cache hit!', cache);
+            res.status(200).send(cache[key].data);
+            
+        } else {
+            console.log('Cache miss!', cache);
+            let url = `https://api.weatherbit.io/v2.0/forecast/daily?key=${process.env.WEATHERBIT_API_KEY}&lat=${latitude}&lon=${longitude}&days=16`;
+    
+            console.log('URL:', url); // request URL
+    
+            let weatherResponse = await axios.get(url)
+    
+            let forecasts = weatherResponse.data.data.map(weatherData => new Forecast(weatherData));
+    
+            console.log('Forecasts:', forecasts); // mapped forecasts
 
-        console.log('URL:', url); // request URL
+            cache[key] = {
+                data: forecasts,
+                created: Date.now()
+            };
+    
+            res.status(200).send(cache[key].data);
+        }
 
-        let weatherResponse = await axios.get(url)
 
-        let forecasts = weatherResponse.data.data.map(weatherData => new Forecast(weatherData));
-
-        console.log('Forecasts:', forecasts); // mapped forecasts
-
-        res.status(200).send(forecasts);
     } catch (error) {
         next(error);
     }
@@ -29,6 +48,8 @@ class Forecast {
         this.description = forecastData.weather.description;
         this.minTemp = forecastData.min_temp;
         this.maxTemp = forecastData.max_temp;
+        this.sunrise = forecastData.sunrise_ts;
+        this.sunset = forecastData.sunset_ts;
     }
 }
 
